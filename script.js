@@ -17,6 +17,7 @@ const resultMsg = document.getElementById('result-msg');
 const restartButton = document.getElementById('restart-btn');
 const progressBar = document.getElementById('progress');
 const timer = document.getElementById('time-left-p');
+const timeUpMsg = document.getElementById('time-up-msg');
 
 const quizQuestions = [
   {
@@ -114,6 +115,7 @@ const quizQuestions = [
 let shuffeledQuizQuestions;
 let timerId = null;
 let counter;
+let isAnswered = false;
 
 let currentQuestionIndex = 0;
 let score = 0;
@@ -138,12 +140,40 @@ startButton.addEventListener("click", () => {
 })
 
 const startTimer = () => {
+  timer.style.color = "#333"
+  timeUpMsg.style.display = "none";
+  timer.style.display = "block";
   counter = 15;
   timer.textContent = counter;
 
   timerId = setInterval(() => {
     counter--;
     timer.textContent = counter;
+
+    if (isAnswered || counter <= 0) {
+      stopTimer();
+      answersDisabled = true;
+      if (counter <= 0) {
+        timer.style.display = "none";
+        timeUpMsg.style.display = "block";
+      }
+
+      Array.from(answersContainer.children).forEach(button => {
+        if (button.dataset.correct === "true") {
+          button.classList.add("correct");
+        }
+      });
+
+      setTimeout(() => {
+        currentQuestionIndex++;
+
+        if (currentQuestionIndex < shuffeledQuizQuestions.length) {
+          showQuestion()
+        } else {
+          showResults()
+        }
+      }, 1000);
+    }
 
     if (counter <= 5) {
       timer.style.color = "red";
@@ -161,6 +191,7 @@ const stopTimer = () => {
 
 const showQuestion = () => {
   answersDisabled = false;
+  isAnswered = false;
 
   const currentQuestion = shuffeledQuizQuestions[currentQuestionIndex];
 
@@ -184,7 +215,8 @@ const showQuestion = () => {
     button.addEventListener("click", (event) => {
       if (answersDisabled) return;
 
-      answersDisabled = true
+      answersDisabled = true;
+      isAnswered = true;
 
       const selectedButton = event.target;
       const isCorrect = selectedButton.dataset.correct === "true";
