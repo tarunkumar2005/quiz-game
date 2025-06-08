@@ -16,6 +16,7 @@ const maxScoreSpan = document.getElementById('max-score');
 const resultMsg = document.getElementById('result-msg');
 const restartButton = document.getElementById('restart-btn');
 const progressBar = document.getElementById('progress');
+const timer = document.getElementById('time-left-p');
 
 const quizQuestions = [
   {
@@ -111,6 +112,8 @@ const quizQuestions = [
 ];
 
 let shuffeledQuizQuestions;
+let timerId = null;
+let counter;
 
 let currentQuestionIndex = 0;
 let score = 0;
@@ -133,6 +136,28 @@ startButton.addEventListener("click", () => {
 
   showQuestion();
 })
+
+const startTimer = () => {
+  counter = 15;
+  timer.textContent = counter;
+
+  timerId = setInterval(() => {
+    counter--;
+    timer.textContent = counter;
+
+    if (counter <= 5) {
+      timer.style.color = "red";
+    }
+  }, 1000);
+}
+
+const stopTimer = () => {
+  if (timerId !== null) {
+    clearInterval(timerId);
+    timerId = null;
+    timer.style.color = "#333"
+  }
+}
 
 const showQuestion = () => {
   answersDisabled = false;
@@ -190,6 +215,8 @@ const showQuestion = () => {
 
     answersContainer.append(button);
   })
+
+  startTimer();
 }
 
 const showResults = () => {
