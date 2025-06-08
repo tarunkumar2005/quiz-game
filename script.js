@@ -110,6 +110,8 @@ const quizQuestions = [
   }
 ];
 
+let shuffeledQuizQuestions;
+
 let currentQuestionIndex = 0;
 let score = 0;
 let answersDisabled = false;
@@ -124,13 +126,15 @@ startButton.addEventListener("click", () => {
   startScreen.classList.remove("active");
   quizScreen.classList.add("active");
 
+  shuffeledQuizQuestions = [...quizQuestions].sort(() => Math.random() - 0.5);
+
   showQuestion();
 })
 
 const showQuestion = () => {
   answersDisabled = false;
 
-  const currentQuestion = quizQuestions[currentQuestionIndex];
+  const currentQuestion = shuffeledQuizQuestions[currentQuestionIndex];
 
   currentQuestionSpan.textContent = currentQuestionIndex + 1;
 
@@ -173,7 +177,7 @@ const showQuestion = () => {
       setTimeout(() => {
         currentQuestionIndex++;
 
-        if (currentQuestionIndex < quizQuestions.length) {
+        if (currentQuestionIndex < shuffeledQuizQuestions.length) {
           showQuestion()
         } else {
           showResults()
