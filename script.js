@@ -1,3 +1,7 @@
+/*
+This is javascript file that handles the functionality of the index.html file. It selected multiple items using id and then use them to create a quiz functionality such as starting the quiz, appearing of ques, correct and incorrect options, updatin scores, and in the end results final score max score showing result msg based on how much percentage you scored and restarting the quiz.
+*/
+
 const startScreen = document.getElementById('start-screen');
 const quizScreen = document.getElementById('quiz-screen');
 const resultScreen = document.getElementById('result-screen');
