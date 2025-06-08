@@ -191,7 +191,7 @@ const showResults = () => {
   const percentage = (score/quizQuestions.length) * 100;
 
   if (percentage === 100) {
-    resultMsg.textContent = "Perfect! You're awersome."
+    resultMsg.textContent = "Perfect! You're awesome."
   } else if (percentage >= 80) {
     resultMsg.textContent = "Great job! Today is your Day."
   } else if (percentage >= 60) {
