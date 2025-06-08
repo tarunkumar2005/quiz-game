@@ -127,6 +127,9 @@ startButton.addEventListener("click", () => {
   quizScreen.classList.add("active");
 
   shuffeledQuizQuestions = [...quizQuestions].sort(() => Math.random() - 0.5);
+  shuffeledQuizQuestions.forEach(question => {
+    question.answers = [...question.answers].sort(() => Math.random() - 0.5);
+  })
 
   showQuestion();
 })
