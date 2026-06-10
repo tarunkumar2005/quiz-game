@@ -125,7 +125,7 @@ totalQuestionsSpan.textContent = quizQuestions.length;
 
 startButton.addEventListener("click", () => {
   currentQuestionIndex = 0;
-  score = 0;
+  score = 0; 
   scoreSpan.textContent = score;
 
   startScreen.classList.remove("active");
@@ -150,7 +150,7 @@ const startTimer = () => {
     counter--;
     timer.textContent = counter;
 
-    if (isAnswered || counter <= 0) {
+    if (counter <= 0) {
       stopTimer();
       answersDisabled = true;
       if (counter <= 0) {
@@ -163,11 +163,11 @@ const startTimer = () => {
           button.classList.add("correct");
         }
       });
-
+      
       setTimeout(() => {
         currentQuestionIndex++;
 
-        if (currentQuestionIndex < shuffeledQuizQuestions.length) {
+        if (currentQuestionIndex < quizQuestions.length) {
           showQuestion()
         } else {
           showResults()
@@ -218,6 +218,8 @@ const showQuestion = () => {
       answersDisabled = true;
       isAnswered = true;
 
+      stopTimer();
+
       const selectedButton = event.target;
       const isCorrect = selectedButton.dataset.correct === "true";
 
@@ -237,7 +239,7 @@ const showQuestion = () => {
       setTimeout(() => {
         currentQuestionIndex++;
 
-        if (currentQuestionIndex < shuffeledQuizQuestions.length) {
+        if (currentQuestionIndex < quizQuestions.length) {
           showQuestion()
         } else {
           showResults()
