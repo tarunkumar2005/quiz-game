@@ -63,6 +63,7 @@ The whole thing is roughly 280 lines across three files. Easy to read top-to-bot
 - **Timers don't auto-stop.** `setInterval` keeps firing forever unless you `clearInterval` it. If you forget, after answering one question you'll have multiple intervals all running on the next one, and the counter will tick down 3x faster.
 - **`while` loops are not the wait tool in JS.** My first instinct was `while (isAnswered) { stopTimer() }`. That spins the CPU millions of times per second and freezes the browser. JS doesn't "wait" — events fire when they're ready, and they share state.
 - **DOM elements aren't numbers.** I once wrote `if (timer <= 0)` comparing a DOM element to a number. JavaScript didn't error, it just did the wrong thing silently. Variables need to be checked against variables of the same kind.
+- **Two paths to the same end-state is a race condition.** I had the click handler set `isAnswered = true`, and the setInterval checked `isAnswered || counter <= 0` to decide when to stop. Both the click and the interval's own logic would then try to advance the question. If the user clicked right when the timer hit zero, both paths fired, the user skipped a question, and the screen glitched. The fix: each path owns its own cleanup. The click handler calls `stopTimer()` directly. The interval only checks `counter <= 0`. No overlap, no race.
 
 ---
 
